@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Actor  {
-    public static string actorPath = "MyActor";
+    public static string actorPath = "prefabs/MainCharacter";
     public MovementComponent movementComponent;
     public LinkerComponent linkerComponent;
     public ValueComponent valueComponent;
@@ -17,9 +17,16 @@ public class Actor  {
 
     public void Init()
     {
-        movementComponent.Init(this);
+        movementComponent.Init(this, actorPath);
         linkerComponent.Init(this, actorPath);
-        valueComponent.Init(this);
+        valueComponent.Init(this, actorPath);
+    }
+
+    public void Prepare()
+    {
+        movementComponent.Prepare();
+        linkerComponent.Prepare();
+        valueComponent.Prepare();
     }
 
     public void UnInit()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LinkerComponent {
+public class LinkerComponent : BaseComponent{
 
     public Actor hostActor;
     public GameObject playerObj;
@@ -14,9 +14,21 @@ public class LinkerComponent {
         if (actorObj)
         {
             playerObj = GameObject.Instantiate(actorObj);
-            playerObj.transform.name = "New Name";
+            playerObj.transform.name = "MyActor";
             playerObj.transform.position = Vector3.zero;
         }
     }
 
+    public void Prepare()
+    {
+        
+    }
+
+    public void UnInit()
+    {
+    }
+
+    public void Update(float deltaTime)
+    {
+    }
 }

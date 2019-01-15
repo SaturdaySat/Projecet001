@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ValueComponent {
-    const float moveSpeedTemp = 5.0f;
+public class ValueComponent : BaseComponent
+{
+    const float moveSpeedTemp = 7.0f;
+    const float jumpPowerTemp = 15.0f;
 
     public Actor hostActor;
     private float moveSpeed;
+    private float jumpPower;
 
     public float MoveSpeed
     {
@@ -20,14 +23,34 @@ public class ValueComponent {
         }
     }
 
-    public void Init(Actor actor)
+    public float JumpPower
+    {
+        get
+        {
+            return jumpPower;
+        }
+        set
+        {
+            jumpPower = value;
+        }
+    }
+
+    public void Init(Actor actor, string actorPath)
     {
         hostActor = actor;
         moveSpeed = moveSpeedTemp;
+        jumpPower = jumpPowerTemp;
     }
 
+    public void Prepare()
+    {
+    }
 
+    public void UnInit()
+    {
+    }
 
-
-
+    public void Update(float deltaTime)
+    {
+    }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 
+    private bool isSpaceDown = false;
+
     // Use this for initialization
     void Start()
     {
@@ -24,9 +26,16 @@ public class InputManager : MonoBehaviour
             EventManager.GetInstance().SendEvent(EventName.RightArrow, new CommonBoolParam(true));
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isSpaceDown)
         {
             EventManager.GetInstance().SendEvent(EventName.Space, new CommonBoolParam(true));
+            isSpaceDown = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            //EventManager.GetInstance().SendEvent(EventName.Space, new CommonBoolParam(false));
+            isSpaceDown = false;
         }
 
         if (Input.GetKeyUp(KeyCode.LeftArrow))
@@ -39,9 +48,6 @@ public class InputManager : MonoBehaviour
             EventManager.GetInstance().SendEvent(EventName.RightArrow, new CommonBoolParam(false));
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            EventManager.GetInstance().SendEvent(EventName.Space, new CommonBoolParam(false));
-        }
+        
     }
 }

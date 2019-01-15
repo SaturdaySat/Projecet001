@@ -10,6 +10,7 @@ public enum EventName
     LeftArrow,
     RightArrow,
     Space,
+    ActorOnGround,
     Max,
 }
 
@@ -27,19 +28,6 @@ public class CommonBoolParam : EventParam
         boolval = val;
     }
 }
-
-// public class SlotClickEventParam : EventParam
-// {
-//     public ComputerPartBase part;
-// }
-// 
-// public class BagItemClickEventParam : EventParam
-// {
-//     public int index;
-//     public ComputerPartBase part;
-// }
-
-
 
 [System.Serializable]
 public class UIEvent:UnityEvent<EventParam>
