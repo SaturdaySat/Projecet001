@@ -9,41 +9,48 @@ public class ActorHelper : MonoBehaviour {
 
     public float ActorSpeed;
     public float ActorJumPower;
+    public int ActorObjId;
 
-    Actor hostActor;
+    public Actor actor;
 
 	// Use this for initialization
 	void Start () {
-        if (GameManager.Instance.hostActor != null)
-        {
-            hostActor = GameManager.Instance.hostActor;
+        ActorCurSpeed = actor.valueComponent.MoveSpeed;
+        ActorSpeed = ActorCurSpeed;
 
-            ActorCurSpeed = hostActor.valueComponent.MoveSpeed;
-            ActorSpeed = ActorCurSpeed;
+        ActorCurJumpPower = actor.valueComponent.JumpPower;
+        ActorJumPower = ActorCurJumpPower;
+    }
 
-            ActorCurJumpPower = hostActor.valueComponent.JumpPower;
-            ActorJumPower = ActorCurJumpPower;
-        }
-	}
+    public void InitActorHelper()
+    {
+        ActorCurSpeed = actor.valueComponent.MoveSpeed;
+        ActorSpeed = ActorCurSpeed;
+
+        ActorCurJumpPower = actor.valueComponent.JumpPower;
+        ActorJumPower = ActorCurJumpPower;
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (hostActor == null)
+        if (actor == null)
         {
             return;
         }
 
         if (ActorSpeed != ActorCurSpeed)
         {
-            hostActor.valueComponent.MoveSpeed = ActorSpeed;
+            actor.valueComponent.MoveSpeed = ActorSpeed;
             ActorCurSpeed = ActorSpeed;
         }
 
         if (ActorJumPower != ActorCurJumpPower)
         {
-            hostActor.valueComponent.JumpPower = ActorJumPower;
+            actor.valueComponent.JumpPower = ActorJumPower;
             ActorCurJumpPower = ActorJumPower;
         }
+
+        ActorObjId = actor.ObjId;
     }
 }

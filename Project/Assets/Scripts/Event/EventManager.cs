@@ -7,16 +7,28 @@ using UnityEngine.Events;
 public enum EventName
 {
     None,
-    LeftArrow,
-    RightArrow,
-    Space,
-    ActorOnGround,
+    LeftArrowEvent,
+    RightArrowEvent,
+    SpaceEvent,
+    ActorOnGroundEvent,
+    ActorEnterDeadZoneEvent,
+    AcotrDeadEvent,
     Max,
 }
 
 public class EventParam
 {
 
+}
+
+public class CommonIntParam : EventParam
+{
+    public int intval;
+
+    public CommonIntParam(int val)
+    {
+        intval = val;
+    }
 }
 
 public class CommonBoolParam : EventParam
@@ -27,6 +39,11 @@ public class CommonBoolParam : EventParam
     {
         boolval = val;
     }
+}
+
+public class ActorParam : EventParam
+{
+    
 }
 
 [System.Serializable]

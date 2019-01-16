@@ -8,11 +8,13 @@ public class CollierEvent : MonoBehaviour {
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer(GlobalDefine.LayerGround))
         {
-            if(GameManager.Instance.hostActor != null && GameManager.Instance.hostActor.movementComponent!=null)
+            Actor actor = this.transform.GetComponent<ActorHelper>().actor;
+
+            if (actor != null && actor.movementComponent!=null)
             {
-                if (GameManager.Instance.hostActor.movementComponent.IsOnGround() == false)
+                if (actor.movementComponent.IsOnGround() == false)
                 {
-                    EventManager.GetInstance().SendEvent(EventName.ActorOnGround, new EventParam());
+                    EventManager.GetInstance().SendEvent(EventName.ActorOnGroundEvent, new CommonIntParam(actor.ObjId));
                 }
             }
         }

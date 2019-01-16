@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovementComponent : BaseComponent{
 
-    public Actor hostActor;
+    public Actor actor;
     private Rigidbody2D rigid2D;
     private BoxCollider2D collier2D;
 
@@ -15,24 +15,25 @@ public class MovementComponent : BaseComponent{
 
     public void Init(Actor actor, string actorPath)
     {
-        hostActor = actor;
+        this.actor = actor;
         AddEventListener();
     }
 
     public void Prepare()
     {
-        rigid2D = hostActor.linkerComponent.playerObj.GetComponent<Rigidbody2D>();
-        collier2D = hostActor.linkerComponent.playerObj.GetComponent<BoxCollider2D>();
+        rigid2D = actor.linkerComponent.playerObj.GetComponent<Rigidbody2D>();
+        collier2D = actor.linkerComponent.playerObj.GetComponent<BoxCollider2D>();
     }
 
     public void UnInit()
     {
+        this.actor = null;
         RemoveEventListener();
     }
 
     public void Update(float deltaTime)
     {
-        if (hostActor == null || hostActor.linkerComponent == null || hostActor.linkerComponent.playerObj == null)
+        if (actor == null || actor.linkerComponent == null || actor.linkerComponent.playerObj == null)
         {
             return;
         }
@@ -42,18 +43,18 @@ public class MovementComponent : BaseComponent{
 
     private void AddEventListener()
     {
-        EventManager.GetInstance().AddEventListener(EventName.LeftArrow, OnLeftArrow);
-        EventManager.GetInstance().AddEventListener(EventName.RightArrow, OnRightArrow);
-        EventManager.GetInstance().AddEventListener(EventName.Space, OnSpace);
-        EventManager.GetInstance().AddEventListener(EventName.ActorOnGround, OnActorOnGround);
+        EventManager.GetInstance().AddEventListener(EventName.LeftArrowEvent, OnLeftArrow);
+        EventManager.GetInstance().AddEventListener(EventName.RightArrowEvent, OnRightArrow);
+        EventManager.GetInstance().AddEventListener(EventName.SpaceEvent, OnSpace);
+        EventManager.GetInstance().AddEventListener(EventName.ActorOnGroundEvent, OnActorOnGround);
     }
 
     private void RemoveEventListener()
     {
-        EventManager.GetInstance().RmvEventListener(EventName.LeftArrow, OnLeftArrow);
-        EventManager.GetInstance().RmvEventListener(EventName.RightArrow, OnRightArrow);
-        EventManager.GetInstance().RmvEventListener(EventName.Space, OnSpace);
-        EventManager.GetInstance().RmvEventListener(EventName.ActorOnGround, OnActorOnGround);
+        EventManager.GetInstance().RmvEventListener(EventName.LeftArrowEvent, OnLeftArrow);
+        EventManager.GetInstance().RmvEventListener(EventName.RightArrowEvent, OnRightArrow);
+        EventManager.GetInstance().RmvEventListener(EventName.SpaceEvent, OnSpace);
+        EventManager.GetInstance().RmvEventListener(EventName.ActorOnGroundEvent, OnActorOnGround);
     }
 
     private void OnLeftArrow(EventParam parm)
@@ -80,12 +81,15 @@ public class MovementComponent : BaseComponent{
 
     private void OnSpace(EventParam parm)
     {
-        Jump();
+        if (actor.ObjId == GameManager.Instance.hostActor.ObjId)
+        {
+            Jump();
+        }
     }
 
     private void Jump()
     {
-        if (hostActor != null)
+        if (actor != null)
         {
             if(rigid2D == null)
             {
@@ -97,24 +101,24 @@ public class MovementComponent : BaseComponent{
                 return;
             }
 
-            rigid2D.AddForce(Vector2.up * hostActor.valueComponent.JumpPower, ForceMode2D.Impulse);
+            rigid2D.AddForce(Vector2.up * actor.valueComponent.JumpPower, ForceMode2D.Impulse);
             isOnGround = false;
         }
     }
 
     private void Move(float deltaTime)
     {
-        Vector3 posNow = hostActor.linkerComponent.playerObj.transform.position;
+        Vector3 posNow = actor.linkerComponent.playerObj.transform.position;
         if (isRight)
         {
-            posNow.x += hostActor.valueComponent.MoveSpeed * deltaTime;
-            hostActor.linkerComponent.playerObj.transform.position = posNow;
+            posNow.x += actor.valueComponent.MoveSpeed * deltaTime;
+            actor.linkerComponent.playerObj.transform.position = posNow;
         }
 
         if (isLeft)
         {
-            posNow.x -= hostActor.valueComponent.MoveSpeed * deltaTime;
-            hostActor.linkerComponent.playerObj.transform.position = posNow;
+            posNow.x -= actor.valueComponent.MoveSpeed * deltaTime;
+            actor.linkerComponent.playerObj.transform.position = posNow;
         }
     }
 
@@ -125,7 +129,8 @@ public class MovementComponent : BaseComponent{
 
     private void OnActorOnGround(EventParam parm)
     {
-        isOnGround = true;
+        if(((CommonIntParam)parm).intval == actor.ObjId);
+            isOnGround = true;
     }
 
 

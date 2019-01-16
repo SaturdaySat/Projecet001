@@ -16,6 +16,18 @@ public class LinkerComponent : BaseComponent{
             playerObj = GameObject.Instantiate(actorObj);
             playerObj.transform.name = "MyActor";
             playerObj.transform.position = Vector3.zero;
+
+            InitActorComponent();
+        }
+    }
+
+    private void InitActorComponent()
+    {
+        var helper = playerObj.GetComponent<ActorHelper>();
+        if (helper)
+        {
+            helper.actor = hostActor;
+            //helper.InitActorHelper();
         }
     }
 
@@ -26,6 +38,8 @@ public class LinkerComponent : BaseComponent{
 
     public void UnInit()
     {
+        GameObject.Destroy(playerObj);
+        hostActor = null;
     }
 
     public void Update(float deltaTime)

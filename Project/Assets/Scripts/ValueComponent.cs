@@ -40,6 +40,7 @@ public class ValueComponent : BaseComponent
         hostActor = actor;
         moveSpeed = moveSpeedTemp;
         jumpPower = jumpPowerTemp;
+        AddEventListener();
     }
 
     public void Prepare()
@@ -48,9 +49,23 @@ public class ValueComponent : BaseComponent
 
     public void UnInit()
     {
+        hostActor = null;
+        RemoveEventListener();
     }
 
     public void Update(float deltaTime)
     {
     }
+
+    private void AddEventListener()
+    {
+   
+    }
+
+    private void RemoveEventListener()
+    {
+ 
+    }
+
+
 }
