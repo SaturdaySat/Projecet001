@@ -9,26 +9,29 @@ public class LevelManager : Singleton<LevelManager> {
         AddEventListener();
     }
 
+    public void UnInitManager()
+    {
+        RemoveEventListener();
+    }
     private void AddEventListener()
     {
-        EventManager.GetInstance().AddEventListener(EventName.ActorEnterDeadZoneEvent, OnActorEnterDeadZoneEvent);
-        EventManager.GetInstance().AddEventListener(EventName.AcotrDeadEvent, OnActorDeadEvent);
+        CGameEventManager.GetInstance().AddEventHandler<int>(enGameEvent.ActorEnterDeadZoneEvent, OnActorEnterDeadZoneEvent);
+        CGameEventManager.GetInstance().AddEventHandler<int>(enGameEvent.AcotrDeadEvent, OnActorDeadEvent);
     }
 
     private void RemoveEventListener()
     {
-        EventManager.GetInstance().RmvEventListener(EventName.ActorEnterDeadZoneEvent, OnActorEnterDeadZoneEvent);
+        CGameEventManager.GetInstance().RmvEventHandler<int>(enGameEvent.ActorEnterDeadZoneEvent, OnActorEnterDeadZoneEvent);
+        CGameEventManager.GetInstance().RmvEventHandler<int>(enGameEvent.AcotrDeadEvent, OnActorDeadEvent);
     }
 
-    private void OnActorEnterDeadZoneEvent(EventParam parm)
+    private void OnActorEnterDeadZoneEvent(ref int objID)
     {
-        int objId = ((CommonIntParam)parm).intval;  //角色的唯一识别ID
-        ActorManager.GetInstance().KillActor(objId);
+        ActorManager.GetInstance().KillActor(objID);
     }
 
-    private void OnActorDeadEvent(EventParam parm)
+    private void OnActorDeadEvent(ref int objId)
     {
-        int objId = ((CommonIntParam)parm).intval;
         if (GameManager.Instance.hostActor.ObjId == objId)
         {
             GameManager.Instance.curLevel.SpawnHostActor();

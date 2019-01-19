@@ -14,7 +14,8 @@ public class CollierEvent : MonoBehaviour {
             {
                 if (actor.movementComponent.IsOnGround() == false)
                 {
-                    EventManager.GetInstance().SendEvent(EventName.ActorOnGroundEvent, new CommonIntParam(actor.ObjId));
+                    //EventManager.GetInstance().SendEvent(EventName.ActorOnGroundEvent, new CommonIntParam(actor.ObjId));
+                    CGameEventManager.GetInstance().SendEvent<int>(enGameEvent.ActorOnGroundEvent, ref actor.ObjId);
                 }
             }
         }

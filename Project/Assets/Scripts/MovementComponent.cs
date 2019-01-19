@@ -43,43 +43,31 @@ public class MovementComponent : BaseComponent{
 
     private void AddEventListener()
     {
-        EventManager.GetInstance().AddEventListener(EventName.LeftArrowEvent, OnLeftArrow);
-        EventManager.GetInstance().AddEventListener(EventName.RightArrowEvent, OnRightArrow);
-        EventManager.GetInstance().AddEventListener(EventName.SpaceEvent, OnSpace);
-        EventManager.GetInstance().AddEventListener(EventName.ActorOnGroundEvent, OnActorOnGround);
+        CGameEventManager.GetInstance().AddEventHandler<bool>(enGameEvent.LeftArrowEvent, OnLeftArrow);
+        CGameEventManager.GetInstance().AddEventHandler<bool>(enGameEvent.RightArrowEvent, OnRightArrow);
+        CGameEventManager.GetInstance().AddEventHandler<bool>(enGameEvent.SpaceEvent, OnSpace);
+        CGameEventManager.GetInstance().AddEventHandler<int>(enGameEvent.ActorOnGroundEvent, OnActorOnGround);
     }
 
     private void RemoveEventListener()
     {
-        EventManager.GetInstance().RmvEventListener(EventName.LeftArrowEvent, OnLeftArrow);
-        EventManager.GetInstance().RmvEventListener(EventName.RightArrowEvent, OnRightArrow);
-        EventManager.GetInstance().RmvEventListener(EventName.SpaceEvent, OnSpace);
-        EventManager.GetInstance().RmvEventListener(EventName.ActorOnGroundEvent, OnActorOnGround);
+        CGameEventManager.GetInstance().RmvEventHandler<bool>(enGameEvent.LeftArrowEvent, OnLeftArrow);
+        CGameEventManager.GetInstance().RmvEventHandler<bool>(enGameEvent.RightArrowEvent, OnRightArrow);
+        CGameEventManager.GetInstance().RmvEventHandler<bool>(enGameEvent.SpaceEvent, OnSpace);
+        CGameEventManager.GetInstance().RmvEventHandler<int>(enGameEvent.ActorOnGroundEvent, OnActorOnGround);
     }
 
-    private void OnLeftArrow(EventParam parm)
+    private void OnLeftArrow(ref bool boolParam)
     {
-        if (parm.GetType() != typeof(CommonBoolParam))
-        {
-            return;
-        }
-
-        CommonBoolParam boolParam = (CommonBoolParam)parm;
-        isLeft = boolParam.boolval;
+        isLeft = boolParam;
     }
 
-    private void OnRightArrow(EventParam parm)
+    private void OnRightArrow(ref bool boolParam)
     {
-        if (parm.GetType() != typeof(CommonBoolParam))
-        {
-            return;
-        }
-
-        CommonBoolParam boolParam = (CommonBoolParam)parm;
-        isRight = boolParam.boolval;
+        isRight = boolParam;
     }
 
-    private void OnSpace(EventParam parm)
+    private void OnSpace(ref bool parm)
     {
         if (actor.ObjId == GameManager.Instance.hostActor.ObjId)
         {
@@ -127,9 +115,9 @@ public class MovementComponent : BaseComponent{
         return isOnGround;
     }
 
-    private void OnActorOnGround(EventParam parm)
+    private void OnActorOnGround(ref int parm)
     {
-        if(((CommonIntParam)parm).intval == actor.ObjId);
+        if(parm == actor.ObjId)
             isOnGround = true;
     }
 

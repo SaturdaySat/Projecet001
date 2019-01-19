@@ -17,23 +17,28 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            EventManager.GetInstance().SendEvent(EventName.SpaceEvent, new CommonBoolParam(true));
+            bool parm = true;
+            CGameEventManager.GetInstance().SendEvent<bool>(enGameEvent.SpaceEvent, ref parm);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            EventManager.GetInstance().SendEvent(EventName.LeftArrowEvent, new CommonBoolParam(true));
+            bool parm = true;
+            CGameEventManager.GetInstance().SendEvent<bool>(enGameEvent.LeftArrowEvent, ref parm);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            EventManager.GetInstance().SendEvent(EventName.RightArrowEvent, new CommonBoolParam(true));
+            bool parm = true;
+            CGameEventManager.GetInstance().SendEvent<bool>(enGameEvent.RightArrowEvent, ref parm);
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            EventManager.GetInstance().SendEvent(EventName.LeftArrowEvent, new CommonBoolParam(false));
+            bool parm = false;
+            CGameEventManager.GetInstance().SendEvent<bool>(enGameEvent.LeftArrowEvent, ref parm);
         }
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            EventManager.GetInstance().SendEvent(EventName.RightArrowEvent, new CommonBoolParam(false));
+            bool parm = false;
+            CGameEventManager.GetInstance().SendEvent<bool>(enGameEvent.RightArrowEvent, ref parm);
         }
     }
 }

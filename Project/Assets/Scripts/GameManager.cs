@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour {
 
         DontDestroyOnLoad(this);
         Instance = this;
-        EventManager.GetInstance().InitManager();
+        //EventManager.GetInstance().InitManager();
+        CGameEventManager.GetInstance().InitManager();
         ActorManager.GetInstance().InitManager();
         LevelManager.GetInstance().InitManager();
         

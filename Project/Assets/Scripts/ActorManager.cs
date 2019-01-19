@@ -40,6 +40,6 @@ public class ActorManager : Singleton<ActorManager> {
         actorDict.Remove(objID);
         actor.UnInit();
 
-        EventManager.GetInstance().SendEvent(EventName.AcotrDeadEvent, new CommonIntParam(objID));
+        CGameEventManager.GetInstance().SendEvent<int>(enGameEvent.AcotrDeadEvent, ref objID);
     }
 }

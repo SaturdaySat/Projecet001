@@ -9,7 +9,7 @@ public class DeadZone : MonoBehaviour {
         if (collision.gameObject.layer == LayerMask.NameToLayer(GlobalDefine.LayerActor))
         {
             Actor actor = collision.transform.GetComponent<ActorHelper>().actor;
-            EventManager.GetInstance().SendEvent(EventName.ActorEnterDeadZoneEvent, new CommonIntParam(actor.ObjId));
+            CGameEventManager.GetInstance().SendEvent<int>(enGameEvent.ActorEnterDeadZoneEvent, ref actor.ObjId);
         }
     }
 }
