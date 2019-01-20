@@ -13,6 +13,7 @@ public enum EventName
     ActorOnGroundEvent,
     ActorEnterDeadZoneEvent,
     AcotrDeadEvent,
+    MoveEvent,
     Max,
 }
 
@@ -38,6 +39,18 @@ public class CommonBoolParam : EventParam
     public CommonBoolParam(bool val)
     {
         boolval = val;
+    }
+}
+
+public class MoveParam : EventParam
+{
+    public bool isMove;
+    public bool isRight;
+
+    public MoveParam(bool _isMove, bool _isRight)
+    {
+        isMove = _isMove;
+        isRight = _isRight;
     }
 }
 

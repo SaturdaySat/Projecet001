@@ -8,10 +8,12 @@ public class MovementComponent : BaseComponent{
     private Rigidbody2D rigid2D;
     private BoxCollider2D collier2D;
 
+    //指的是 是否有向右或向左的操作命令，不一定是移动方向
     private bool isRight = false;
     private bool isLeft = false;
-
     private bool isOnGround = false;
+
+    private bool isMoving = false;
 
     public void Init(Actor actor, string actorPath)
     {
@@ -108,17 +110,24 @@ public class MovementComponent : BaseComponent{
 
     private void Move(float deltaTime)
     {
-        Vector3 posNow = actor.linkerComponent.playerObj.transform.position;
-        if (isRight)
-        {
-            posNow.x += actor.valueComponent.MoveSpeed * deltaTime;
-            actor.linkerComponent.playerObj.transform.position = posNow;
-        }
+        float realMoveSpeed = 0;
+        realMoveSpeed = isRight ? realMoveSpeed + actor.valueComponent.MoveSpeed : realMoveSpeed;
+        realMoveSpeed = isLeft ? realMoveSpeed - actor.valueComponent.MoveSpeed : realMoveSpeed;
 
-        if (isLeft)
+        Vector3 posNow = actor.linkerComponent.playerObj.transform.position;
+        posNow.x += realMoveSpeed * deltaTime;
+        actor.linkerComponent.playerObj.transform.position = posNow;
+
+        if (realMoveSpeed != 0 && isMoving == false)
         {
-            posNow.x -= actor.valueComponent.MoveSpeed * deltaTime;
-            actor.linkerComponent.playerObj.transform.position = posNow;
+            //之前没有移动，现在开始移动了
+            isMoving = true;
+            EventManager.GetInstance().SendEvent(EventName.MoveEvent, new MoveParam(isMoving, realMoveSpeed > 0));
+        }
+        else if (realMoveSpeed == 0 && isMoving)
+        {
+            isMoving = false;
+            EventManager.GetInstance().SendEvent(EventName.MoveEvent, new MoveParam(isMoving, false));
         }
     }
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ValueComponent : BaseComponent
 {
-    const float moveSpeedTemp = 7.0f;
-    const float jumpPowerTemp = 15.0f;
+    const float moveSpeedTemp = 25.0f;
+    const float jumpPowerTemp = 145.0f;
 
     public Actor hostActor;
     private float moveSpeed;
