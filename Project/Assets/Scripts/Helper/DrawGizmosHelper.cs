@@ -6,7 +6,7 @@ using UnityEditor;
 [RequireComponent(typeof(GizmosHelperSetting))]
 public class DrawGizmosHelper : MonoBehaviour {
 
-    [DrawGizmo(GizmoType.NonSelected | GizmoType.Active)]
+    [DrawGizmo(GizmoType.NonSelected | GizmoType.Active | GizmoType.Pickable)]
     static void DrawGizmoForMyScript(DrawGizmosHelper src, GizmoType gizmoType)
     {
         GizmosHelperSetting setting = src.transform.GetComponent<GizmosHelperSetting>();
