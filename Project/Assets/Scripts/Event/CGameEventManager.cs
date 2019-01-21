@@ -12,7 +12,21 @@ public enum enGameEvent
     ActorOnGroundEvent,
     ActorEnterDeadZoneEvent,
     AcotrDeadEvent,
+    MoveEvent,
     Max,
+}
+
+public struct MoveEventParam
+{
+    public bool isMove;
+    public bool isRight;
+
+    public MoveEventParam(bool _isMove, bool _isRight)
+    {
+        isMove = _isMove;
+        isRight = _isRight;
+    }
+
 }
 
 public class CGameEventManager : Singleton<CGameEventManager> {

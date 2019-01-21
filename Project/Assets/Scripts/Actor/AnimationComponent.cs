@@ -33,22 +33,20 @@ public class AnimationComponent : BaseComponent
 
     private void AddEventListener()
     {
-        EventManager.GetInstance().AddEventListener(EventName.MoveEvent, OnMoveEvent);
+        CGameEventManager.GetInstance().AddEventHandler<MoveEventParam>(enGameEvent.MoveEvent, OnMoveEvent);
     }
 
     private void RemoveEventListener()
     {
-        EventManager.GetInstance().RmvEventListener(EventName.MoveEvent, OnMoveEvent);
+        CGameEventManager.GetInstance().RmvEventHandler<MoveEventParam>(enGameEvent.MoveEvent, OnMoveEvent);
     }
 
-    private void OnMoveEvent(EventParam param)
+    private void OnMoveEvent(ref MoveEventParam param)
     {
         if (animator == null)
             return;
-        if (param.GetType() != typeof(MoveParam))
-            return;
-        bool isRun = ((MoveParam)param).isMove;
-        bool isRight = ((MoveParam)param).isRight;
+        bool isRun = param.isMove;
+        bool isRight = param.isRight;
         animator.SetBool("isRun",isRun);
         actor.GetComponent<SpriteRenderer>().flipX = !isRight;
     }

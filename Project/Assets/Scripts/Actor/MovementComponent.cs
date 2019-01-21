@@ -106,16 +106,23 @@ public class MovementComponent : BaseComponent{
         posNow.x += realMoveSpeed * deltaTime;
         actor.linkerComponent.playerObj.transform.position = posNow;
 
+        MoveEventParam param;
         if (realMoveSpeed != 0 && isMoving == false)
         {
             //之前没有移动，现在开始移动了
             isMoving = true;
-            EventManager.GetInstance().SendEvent(EventName.MoveEvent, new MoveParam(isMoving, realMoveSpeed > 0));
+
+            param.isMove = isMoving;
+            param.isRight = realMoveSpeed > 0;
+            CGameEventManager.GetInstance().SendEvent<MoveEventParam>(enGameEvent.MoveEvent, ref param);
         }
         else if (realMoveSpeed == 0 && isMoving)
         {
             isMoving = false;
-            EventManager.GetInstance().SendEvent(EventName.MoveEvent, new MoveParam(isMoving, false));
+
+            param.isMove = isMoving;
+            param.isRight = false;
+            CGameEventManager.GetInstance().SendEvent<MoveEventParam>(enGameEvent.MoveEvent, ref param);
         }
     }
 
