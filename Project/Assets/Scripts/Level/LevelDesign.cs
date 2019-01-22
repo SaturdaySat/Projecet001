@@ -52,6 +52,7 @@ public class LevelDesign : MonoBehaviour {
         {
             Actor actor = hostSpawnPoint.CreateActor();
             GameManager.Instance.hostActor = actor;
+            CGameEventManager.GetInstance().SendEvent<Actor>(enGameEvent.ActorSpawnEvent, ref actor);
         }
     }
 

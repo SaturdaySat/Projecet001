@@ -14,6 +14,7 @@ public enum enGameEvent
     ActorOnGroundEvent,
     ActorEnterDeadZoneEvent,
     AcotrDeadEvent,
+    ActorSpawnEvent,
     MoveEvent,
     Max,
 }
