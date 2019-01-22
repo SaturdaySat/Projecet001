@@ -8,6 +8,8 @@ public enum enGameEvent
     None,
     LeftArrowEvent,
     RightArrowEvent,
+    EnterDoorAreaEvent,
+    EnterDoorActionEvent,
     SpaceEvent,
     ActorOnGroundEvent,
     ActorEnterDeadZoneEvent,
@@ -26,8 +28,21 @@ public struct MoveEventParam
         isMove = _isMove;
         isRight = _isRight;
     }
-
 }
+
+
+public struct EnterDoorAreaParam
+{
+    public int actorId;
+    public bool isEnter;
+
+    public EnterDoorAreaParam(int _actorId, bool _isEnter)
+    {
+        actorId = _actorId;
+        isEnter = _isEnter;
+    }
+}
+
 
 public class CGameEventManager : Singleton<CGameEventManager> {
     private CEventDispatcher m_eventDispatcher = new CEventDispatcher();

@@ -5,12 +5,27 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 
+    Actor hostActor;
+    private bool isEnterDoorArea;
+
+
+    Actor HostActor
+    {
+        get
+        {
+            if (hostActor == null)
+                hostActor = GameManager.Instance.hostActor;
+            return hostActor;
+        }
+    }
 
     // Use this for initialization
     void Start()
     {
-
+        isEnterDoorArea = false;
+        CGameEventManager.GetInstance().AddEventHandler<EnterDoorAreaParam>(enGameEvent.EnterDoorAreaEvent, OnEnterDoorAreaEvent);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -39,6 +54,21 @@ public class InputManager : MonoBehaviour
         {
             bool parm = false;
             CGameEventManager.GetInstance().SendEvent<bool>(enGameEvent.RightArrowEvent, ref parm);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) && isEnterDoorArea)
+        {
+            int actorID = GameManager.Instance.hostActor.ObjId;
+            CGameEventManager.GetInstance().SendEvent<int>(enGameEvent.EnterDoorActionEvent, ref actorID);
+        }
+    }
+
+    private void OnEnterDoorAreaEvent(ref EnterDoorAreaParam param)
+    {
+        if (HostActor == null)
+            return;
+        if (param.actorId == HostActor.ObjId)
+        {
+            isEnterDoorArea = param.isEnter;
         }
     }
 }

@@ -137,5 +137,11 @@ public class MovementComponent : BaseComponent{
             isOnGround = true;
     }
 
+    public void SetActorPos(Vector3 destPos)
+    {
+        if (actor == null)
+            return;
+        actor.linkerComponent.playerObj.transform.position = destPos;
+    }
 
 }
