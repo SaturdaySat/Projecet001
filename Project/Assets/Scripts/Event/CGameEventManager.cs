@@ -16,7 +16,22 @@ public enum enGameEvent
     AcotrDeadEvent,
     ActorSpawnEvent,
     MoveEvent,
+    EnterTriggerArea, 
+    LeaveTriggerArea,
     Max,
+}
+
+
+public struct CommonTriggerAreaEventParam
+{
+    public int actorId;
+    public int triggerAreaId;
+
+    public CommonTriggerAreaEventParam(int _actorId, int _triggerAreaId)
+    {
+        actorId = _actorId;
+        triggerAreaId = _triggerAreaId;
+    }
 }
 
 public struct MoveEventParam
