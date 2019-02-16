@@ -14,9 +14,22 @@ public class CollierEvent : MonoBehaviour {
             {
                 if (actor.movementComponent.IsOnGround() == false)
                 {
-                    //EventManager.GetInstance().SendEvent(EventName.ActorOnGroundEvent, new CommonIntParam(actor.ObjId));
-                    CGameEventManager.GetInstance().SendEvent<int>(enGameEvent.ActorOnGroundEvent, ref actor.ObjId);
+                    OnGroundParam param = new OnGroundParam(actor.ObjId, collision.gameObject);
+                    CGameEventManager.GetInstance().SendEvent<OnGroundParam>(enGameEvent.ActorOnGroundEvent, ref param);
                 }
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer(GlobalDefine.LayerGround))
+        {
+            Actor actor = this.transform.GetComponent<ActorHelper>().actor;
+
+            if (actor != null && actor.movementComponent != null)
+            {
+                CGameEventManager.GetInstance().SendEvent<int>(enGameEvent.ActorLeaveGroundEvent, ref actor.ObjId);
             }
         }
     }

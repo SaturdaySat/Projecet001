@@ -48,7 +48,8 @@ public class MovementComponent : BaseComponent{
         CGameEventManager.GetInstance().AddEventHandler<bool>(enGameEvent.LeftArrowEvent, OnLeftArrow);
         CGameEventManager.GetInstance().AddEventHandler<bool>(enGameEvent.RightArrowEvent, OnRightArrow);
         CGameEventManager.GetInstance().AddEventHandler<bool>(enGameEvent.SpaceEvent, OnSpace);
-        CGameEventManager.GetInstance().AddEventHandler<int>(enGameEvent.ActorOnGroundEvent, OnActorOnGround);
+        CGameEventManager.GetInstance().AddEventHandler<OnGroundParam>(enGameEvent.ActorOnGroundEvent, OnActorOnGround);
+        CGameEventManager.GetInstance().AddEventHandler<int>(enGameEvent.ActorLeaveGroundEvent, OnActorLeaveGround);
     }
 
     private void RemoveEventListener()
@@ -56,7 +57,8 @@ public class MovementComponent : BaseComponent{
         CGameEventManager.GetInstance().RmvEventHandler<bool>(enGameEvent.LeftArrowEvent, OnLeftArrow);
         CGameEventManager.GetInstance().RmvEventHandler<bool>(enGameEvent.RightArrowEvent, OnRightArrow);
         CGameEventManager.GetInstance().RmvEventHandler<bool>(enGameEvent.SpaceEvent, OnSpace);
-        CGameEventManager.GetInstance().RmvEventHandler<int>(enGameEvent.ActorOnGroundEvent, OnActorOnGround);
+        CGameEventManager.GetInstance().RmvEventHandler<OnGroundParam>(enGameEvent.ActorOnGroundEvent, OnActorOnGround);
+        CGameEventManager.GetInstance().RmvEventHandler<int>(enGameEvent.ActorLeaveGroundEvent, OnActorLeaveGround);
     }
 
     private void OnLeftArrow(ref bool boolParam)
@@ -93,6 +95,8 @@ public class MovementComponent : BaseComponent{
 
             rigid2D.AddForce(Vector2.up * actor.valueComponent.JumpPower, ForceMode2D.Impulse);
             isOnGround = false;
+            //actor.linkerComponent.playerObj.transform.parent = null;
+
         }
     }
 
@@ -131,10 +135,23 @@ public class MovementComponent : BaseComponent{
         return isOnGround;
     }
 
-    private void OnActorOnGround(ref int parm)
+    private void OnActorOnGround(ref OnGroundParam parm)
     {
-        if(parm == actor.ObjId)
+        if (parm.actorId == actor.ObjId && parm.ground != null)
             isOnGround = true;
+
+        //角色接触地板的时候要检测是否站到了可以移动的板子上，
+        //如果站到了可以移动的板子上，需要把父对象设置为这个板子
+        if(actor.linkerComponent.playerObj.gameObject.transform.parent != parm.ground.transform)
+        {
+            actor.linkerComponent.playerObj.gameObject.transform.parent = parm.ground.transform;
+        }
+    }
+
+    private void OnActorLeaveGround(ref int param)
+    {
+        if (param == actor.ObjId)
+            actor.linkerComponent.playerObj.gameObject.transform.parent = null;
     }
 
     public void SetActorPos(Vector3 destPos)

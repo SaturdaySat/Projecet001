@@ -12,6 +12,7 @@ public enum enGameEvent
     EnterDoorActionEvent,
     SpaceEvent,
     ActorOnGroundEvent,
+    ActorLeaveGroundEvent,
     ActorEnterDeadZoneEvent,
     AcotrDeadEvent,
     ActorSpawnEvent,
@@ -59,6 +60,17 @@ public struct EnterDoorAreaParam
     }
 }
 
+public struct OnGroundParam
+{
+    public int actorId;
+    public GameObject ground;
+
+    public OnGroundParam(int _actorId, GameObject _groundObj)
+    {
+        actorId = _actorId;
+        ground = _groundObj;
+    }
+}
 
 public class CGameEventManager : Singleton<CGameEventManager> {
     private CEventDispatcher m_eventDispatcher = new CEventDispatcher();
